@@ -9,6 +9,11 @@
         component: './user/Login',
       },
       {
+        name: 'Register',
+        path: '/user/register',
+        component: './user/Register',
+      },
+      {
         component: './404',
       },
     ],

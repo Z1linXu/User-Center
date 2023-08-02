@@ -21,6 +21,7 @@ export default {
   'pages.login.rememberMe': 'Remember me',
   'pages.login.forgotPassword': 'Forgot Password ?',
   'pages.login.submit': 'Login',
+  'pages.register.submit': 'Register',
   'pages.login.loginWith': 'Login with :',
   'pages.login.registerAccount': 'Register Account',
   'pages.welcome.link': 'Welcome',

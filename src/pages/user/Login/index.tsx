@@ -91,7 +91,12 @@ const Login: React.FC = () => {
           <Tabs activeKey={type} onChange={setType}>
             <Tabs.TabPane
               key="account"
-              tab='账户密码登录'
+              tab='Login'
+            />
+            <Tabs.TabPane
+              key="account1"
+              tab='Register'
+
             />
 
           </Tabs>
@@ -149,7 +154,6 @@ const Login: React.FC = () => {
               />
             </>
           )}
-
           <div
             style={{
               marginBottom: 24,
@@ -164,9 +168,14 @@ const Login: React.FC = () => {
               }}
             >
               <FormattedMessage id="pages.login.forgotuserPassword" defaultMessage="Forgot userPassword" />
+
+
             </a>
           </div>
         </LoginForm>
+        <button>
+          Register
+        </button>
       </div>
       <Footer />
     </div>
