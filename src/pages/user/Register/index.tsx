@@ -10,7 +10,7 @@ import {
 } from '@ant-design/pro-components';
 import { message, Tabs } from 'antd';
 import React, { useState } from 'react';
-import { FormattedMessage, history, SelectLang, useIntl } from 'umi';
+import {FormattedMessage, history, Link, SelectLang, useIntl} from 'umi';
 import styles from './index.less';
 import {SYSTEM_LOGO} from "@/pages/constant";
 
@@ -81,7 +81,7 @@ const Register: React.FC = () => {
           <Tabs activeKey={type} onChange={setType}>
             <Tabs.TabPane
               key="account"
-              tab='Register an account'
+              tab='Sign Up'
             />
 
           </Tabs>
@@ -163,7 +163,14 @@ const Register: React.FC = () => {
               />
             </>
           )}
-
+          <div
+            style={{
+              marginBottom: 12,
+              float: 'right',
+            }}
+          >
+            <Link to="/user/login">Sign In </Link>
+          </div>
         </LoginForm>
       </div>
       <Footer />

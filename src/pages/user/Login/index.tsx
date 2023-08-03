@@ -6,14 +6,14 @@ import {
 } from '@ant-design/icons';
 import {
   LoginForm,
-  ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
-import { Alert, message, Tabs } from 'antd';
+import {Alert,  message,  Tabs} from 'antd';
 import React, { useState } from 'react';
-import { FormattedMessage, history, SelectLang, useIntl, useModel } from 'umi';
+import {FormattedMessage, history, Link, SelectLang, useIntl, useModel} from 'umi';
 import styles from './index.less';
-import {SYSTEM_LOGO} from "@/pages/constant";
+import {MY_WEB, SYSTEM_LOGO} from "@/pages/constant";
+
 
 const LoginMessage: React.FC<{
   content: string;
@@ -83,7 +83,6 @@ const Login: React.FC = () => {
           logo={<img alt="logo" src={SYSTEM_LOGO}/>}
           title="User Center"
           subTitle="User-Centric Solutions for Your Needs"
-
           onFinish={async (values) => {
             await handleSubmit(values as API.LoginParams);
           }}
@@ -91,14 +90,8 @@ const Login: React.FC = () => {
           <Tabs activeKey={type} onChange={setType}>
             <Tabs.TabPane
               key="account"
-              tab='Login'
+              tab='Sign In'
             />
-            <Tabs.TabPane
-              key="account1"
-              tab='Register'
-
-            />
-
           </Tabs>
 
           {status === 'error' && loginType === 'account' && (
@@ -154,28 +147,24 @@ const Login: React.FC = () => {
               />
             </>
           )}
+          <Link to="/user/register">Sign Up </Link>
           <div
             style={{
-              marginBottom: 24,
+              marginBottom: 12,
+              float: 'right',
             }}
           >
-            <ProFormCheckbox noStyle name="autoLogin">
-              <FormattedMessage id="pages.login.rememberMe" defaultMessage="Auto Login" />
-            </ProFormCheckbox>
             <a
-              style={{
-                float: 'right',
-              }}
+              href={MY_WEB}
+              target="_blank"
+              rel="noreferrer"
             >
-              <FormattedMessage id="pages.login.forgotuserPassword" defaultMessage="Forgot userPassword" />
-
-
+              Forgot password
             </a>
           </div>
+
+
         </LoginForm>
-        <button>
-          Register
-        </button>
       </div>
       <Footer />
     </div>

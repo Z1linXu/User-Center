@@ -14,6 +14,7 @@ export default {
   'menu.exception.403': '403',
   'menu.exception.404': '404',
   'menu.exception.500': '500',
+  "menu.Register": "Register",
   'menu.form': 'Form',
   'menu.form.basic-form': 'Basic Form',
   'menu.form.step-form': 'Step Form',
