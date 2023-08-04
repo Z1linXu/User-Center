@@ -38,12 +38,6 @@
         component: './admin/UserManage',
       },
       {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        icon: 'smile',
-        component: './Welcome',
-      },
-      {
         component: './404',
       },
     ],

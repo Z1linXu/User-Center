@@ -1,181 +1,156 @@
-import Footer from '@/components/Footer';
-import {register} from '@/services/ant-design-pro/api';
-import {
-  LockOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
-import {
-  LoginForm,
-  ProFormText,
-} from '@ant-design/pro-components';
-import { message, Tabs } from 'antd';
-import React, { useState } from 'react';
-import {FormattedMessage, history, Link, SelectLang, useIntl} from 'umi';
-import styles from './index.less';
-import {SYSTEM_LOGO} from "@/pages/constant";
+
+import React, { useRef } from 'react';
+import type { ProColumns, ActionType } from '@ant-design/pro-table';
+import ProTable from '@ant-design/pro-table';
+import {searchUsers} from "@/services/ant-design-pro/api";
+import { TableDropdown } from '@ant-design/pro-components';
 
 
 
+const columns: ProColumns<API.CurrentUser>[] = [
+  {
+    dataIndex: 'id',
+    valueType: 'indexBorder',
+    width: 48,
+  },
+  {
+    title: 'Username',
+    dataIndex: 'username',
+    copyable: true,
+  },
+  {
+    title: 'User Account',
+    dataIndex: 'userAccount',
+    copyable: true,
+  },
+  {
+    title: 'Avatar',
+    dataIndex: 'avatarUrl',
+    render: (_, record) => (
+      <div>
+        <img src={record.avatarUrl} width={100} />
+      </div>
+    ),
+  },
 
+  {
+    title: 'Gender',
+    dataIndex: 'gender',
+    copyable: true,
+  },
+  {
+    title: 'Phone Number',
+    dataIndex: 'phone',
+    copyable: true,
+  },
+  {
+    title: 'Email',
+    dataIndex: 'email',
+    copyable: true,
+  },
+  {
+    title: 'Status',
+    dataIndex: 'userStatus',
+    filters: true,
+    onFilter: true,
+  },
+  {
+    title: 'Role',
+    dataIndex: 'userRole',
+    valueType: 'select',
+    valueEnum: {
+      0: { text: 'User', status: 'Default' },
+      open: {
+        text: 'Unresolved',
+        status: 'Error',
+      },
+      1: {
+        text: 'Manager',
+        status: 'Success',
+        disabled: true,
+      },
+    },
+  },
+  {
+    title: 'Creation Time',
+    dataIndex: 'createTime',
+    valueType: 'dateTime',
+  },
 
-const Register: React.FC = () => {
-    const [type, setType] = useState<string>('account');
+  {
+    title: 'Option',
+    valueType: 'option',
+    key: 'option',
+    render: (text, record, _, action) => [
+      <a
+        key="editable"
+        onClick={() => {
+          action?.startEditable?.(record.id);
+        }}
+      >
+       Edit
+      </a>,
+      <a href={record.avatarUrl} target="_blank" rel="noopener noreferrer" key="view">
+        View
+      </a>,
+      <TableDropdown
+        key="actionGroup"
+        onSelect={() => action?.reload()}
+        menus={[
+          { key: 'copy', name: 'Copy' },
+          { key: 'delete', name: 'Delete' },
+        ]}
+      />,
+    ],
+  },
+];
 
-    const intl = useIntl();
-
-
-
-    const handleSubmit = async (values: API.RegisterParams) => {
-      const {userPassword, checkPassword }= values;
-      //Validation
-      if(userPassword !==checkPassword)
-      {
-        message.error('The passwords do not match.')
-        return;
-      }
-      try {
-        // Register
-        const id = await register(values);
-        if (id> 0) {
-          const defaultLoginSuccessMessage = 'Account created！';
-          message.success(defaultLoginSuccessMessage);
-
-          /** 此方法会跳转到 redirect 参数所在的位置 */
-          if (!history) return;
-          const { query } = history.location;
-          history.push({
-            pathname:'/user/login',
-            query,
-          });
-          return;
-        } else throw new  Error(`register error id = ${id}`);
-      } catch (error) {
-        const defaultLoginFailureMessage = intl.formatMessage({
-          id: 'pages.login.failure',
-          defaultMessage: 'Login failed, please try again!',
-        });
-        message.error(defaultLoginFailureMessage);
-      }
-    };
+export default () => {
+  const actionRef = useRef<ActionType>();
   return (
-    <div className={styles.container}>
-      <div className={styles.lang} data-lang>
-        {SelectLang && <SelectLang />}
-      </div>
-      <div className={styles.content}>
-        <LoginForm
+    <ProTable<API.CurrentUser>
+      columns={columns}
+      actionRef={actionRef}
+      cardBordered
+      request={async (params = {}, sort, filter) => {
+        console.log(sort, filter);
+        const userList = await searchUsers();
+        return{
+          data: userList
+        }
+      }}
+      editable={{
+        type: 'multiple',
+      }}
+      columnsState={{
+        persistenceKey: 'pro-table-singe-demos',
+        persistenceType: 'localStorage',
+        onChange(value) {
+          console.log('value: ', value);
+        },
+      }}
+      rowKey="id"
+      search={{
+        labelWidth: 'auto',
+      }}
+      form={{
+        // 由于配置了 transform，提交的参与与定义的不同这里需要转化一下
+        syncToUrl: (values, type) => {
+          if (type === 'get') {
+            return {
+              ...values,
+              created_at: [values.startTime, values.endTime],
+            };
+          }
+          return values;
+        },
+      }}
+      pagination={{
+        pageSize: 5,
+      }}
+      dateFormatter="string"
+      headerTitle="User Form"
 
-          submitter={{
-            searchConfig: {
-              submitText: 'Register'
-            }
-          }}
-          logo={<img alt="logo" src={SYSTEM_LOGO}/>}
-          title="User Center"
-          subTitle="User-Centric Solutions for Your Needs"
-
-          onFinish={async (values) => {
-            await handleSubmit(values as API.RegisterParams);
-          }}
-        >
-          <Tabs activeKey={type} onChange={setType}>
-            <Tabs.TabPane
-              key="account"
-              tab='Sign Up'
-            />
-
-          </Tabs>
-          {type === 'account' && (
-            <>
-              <ProFormText
-                name="userAccount"
-                fieldProps={{
-                  size: 'large',
-                  prefix: <UserOutlined className={styles.prefixIcon} />,
-                }}
-                placeholder='Please enter your account'
-                rules={[
-                  {
-                    required: true,
-                    message: (
-                      <FormattedMessage
-                        id="pages.login.userAccount.required"
-                        defaultMessage="Please enter your account"
-                      />
-                    ),
-                  },
-                  {
-                    min:4,
-                    type:'string',
-                    message: 'length can not smaller than 4',
-                  },
-                ]}
-              />
-              <ProFormText.Password
-                name="userPassword"
-                fieldProps={{
-                  size: 'large',
-                  prefix: <LockOutlined className={styles.prefixIcon} />,
-                }}
-                placeholder='Password'
-
-                rules={[
-                  {
-                    required: true,
-                    message: (
-                      <FormattedMessage
-                        id="pages.login.userPassword.required"
-                        defaultMessage="Please enter your userPassword."
-                      />
-                    ),
-                  },
-                  {
-                    min:8,
-                    type:'string',
-                    message: 'length can not smaller than 8',
-                  },
-                ]}
-              />
-              <ProFormText.Password
-                name="checkPassword"
-                fieldProps={{
-                  size: 'large',
-                  prefix: <LockOutlined className={styles.prefixIcon} />,
-                }}
-                placeholder='Please confirm your userPassword.'
-
-                rules={[
-                  {
-                    required: true,
-                    message: (
-                      <FormattedMessage
-                        id="pages.login.userPassword.required"
-                        defaultMessage="Please confirm your userPassword."
-                      />
-                    ),
-                  },
-                  {
-                    min:8,
-                    type:'string',
-                    message: 'length can not smaller than 8',
-                  },
-                ]}
-              />
-            </>
-          )}
-          <div
-            style={{
-              marginBottom: 12,
-              float: 'right',
-            }}
-          >
-            <Link to="/user/login">Sign In </Link>
-          </div>
-        </LoginForm>
-      </div>
-      <Footer />
-    </div>
+    />
   );
 };
-
-export default Register;
