@@ -18,6 +18,7 @@ declare namespace API {
     createTime: Date;
     updateTime: Date;
     userRole: number;
+    serialNumber: string;
   };
 
   type LoginResult = {
@@ -69,6 +70,7 @@ declare namespace API {
     userAccount?: string;
     userPassword?: string;
     checkPassword?: string;
+    serialNumber?: string;
     type?: string;
   };
 

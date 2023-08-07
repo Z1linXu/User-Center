@@ -20,6 +20,7 @@ export default {
   'pages.getCaptchaSecondText': 'sec(s)',
   'pages.login.rememberMe': 'Remember me',
   'pages.login.forgotPassword': 'Forgot Password ?',
+  'pages.login.serialNumber.required':'Please enter your serial number!',
   'pages.login.submit': 'Login',
   'pages.register.submit': 'Register',
   'pages.login.loginWith': 'Login with :',

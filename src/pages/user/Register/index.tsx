@@ -161,6 +161,30 @@ const Register: React.FC = () => {
                   },
                 ]}
               />
+              <ProFormText
+                name="serialNumber"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <UserOutlined className={styles.prefixIcon} />,
+                }}
+                placeholder='Please enter your serialNumber'
+                rules={[
+                  {
+                    required: true,
+                    message: (
+                      <FormattedMessage
+                        id="pages.login.serialNumber.required"
+                        defaultMessage="Please enter your Serial number"
+                      />
+                    ),
+                  },
+                  {
+                    max:5,
+                    type:'string',
+                    message: 'length can not bigger than 5',
+                  },
+                ]}
+              />
             </>
           )}
           <div

@@ -48,11 +48,16 @@ const columns: ProColumns<API.CurrentUser>[] = [
     dataIndex: 'email',
     copyable: true,
   },
+
   {
     title: 'Status',
     dataIndex: 'userStatus',
     filters: true,
     onFilter: true,
+  },
+  {
+    title: 'Serial Number',
+    dataIndex: 'serialNumber',
   },
   {
     title: 'Role',
