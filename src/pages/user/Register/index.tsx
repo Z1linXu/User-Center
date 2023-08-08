@@ -36,7 +36,7 @@ const Register: React.FC = () => {
       try {
         // Register
         const id = await register(values);
-        if (id> 0) {
+        if (id) {
           const defaultLoginSuccessMessage = 'Account created！';
           message.success(defaultLoginSuccessMessage);
 
@@ -48,8 +48,8 @@ const Register: React.FC = () => {
             query,
           });
           return;
-        } else throw new  Error(`register error id = ${id}`);
-      } catch (error) {
+        }
+      } catch (error: any) {
         const defaultLoginFailureMessage = intl.formatMessage({
           id: 'pages.login.failure',
           defaultMessage: 'Login failed, please try again!',
