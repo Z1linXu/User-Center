@@ -10,7 +10,7 @@ import {
 } from '@ant-design/pro-components';
 import {Alert,  message,  Tabs} from 'antd';
 import React, { useState } from 'react';
-import {FormattedMessage, history, Link, SelectLang, useIntl, useModel} from 'umi';
+import {FormattedMessage, history, Link, SelectLang, useModel} from 'umi';
 import styles from './index.less';
 import {MY_WEB, SYSTEM_LOGO} from "@/pages/constant";
 
@@ -29,14 +29,12 @@ const LoginMessage: React.FC<{
 );
 
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
+  const [userLoginState] = useState<API.LoginResult>({});
   const [type, setType] = useState<string>('account');
-  const { initialState, setInitialState } = useModel('@@initialState');
-
-  const intl = useIntl();
-
+  const {initialState, setInitialState} = useModel('@@initialState');
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
+
     if (userInfo) {
       await setInitialState((s) => ({
         ...s,
@@ -62,12 +60,8 @@ const Login: React.FC = () => {
       }
 
       // 如果失败去设置用户错误信息
-      setUserLoginState(user);
     } catch (error) {
-      const defaultLoginFailureMessage = intl.formatMessage({
-        id: 'pages.login.failure',
-        defaultMessage: 'Login failed, please try again!',
-      });
+      const defaultLoginFailureMessage = 'Login failed, please try again!';
       message.error(defaultLoginFailureMessage);
     }
   };
@@ -107,7 +101,7 @@ const Login: React.FC = () => {
                   size: 'large',
                   prefix: <UserOutlined className={styles.prefixIcon} />,
                 }}
-                placeholder='Please enter your account'
+                placeholder='linzhu'
                 rules={[
                   {
                     required: true,
@@ -126,7 +120,7 @@ const Login: React.FC = () => {
                   size: 'large',
                   prefix: <LockOutlined className={styles.prefixIcon} />,
                 }}
-                placeholder='userPassword'
+                placeholder='12345678'
 
                 rules={[
                   {

@@ -4,6 +4,7 @@ import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import {searchUsers} from "@/services/ant-design-pro/api";
 import { TableDropdown } from '@ant-design/pro-components';
+import {Image} from "antd";
 
 
 
@@ -28,7 +29,7 @@ const columns: ProColumns<API.CurrentUser>[] = [
     dataIndex: 'avatarUrl',
     render: (_, record) => (
       <div>
-        <img src={record.avatarUrl} width={100} />
+        <Image src={record.avatarUrl} width={100} />
       </div>
     ),
   },
@@ -112,6 +113,8 @@ const columns: ProColumns<API.CurrentUser>[] = [
 
 export default () => {
   const actionRef = useRef<ActionType>();
+
+  // @ts-ignore
   return (
     <ProTable<API.CurrentUser>
       columns={columns}
@@ -119,6 +122,7 @@ export default () => {
       cardBordered
       request={async (params = {}, sort, filter) => {
         console.log(sort, filter);
+        //这里把后端传送过来的数据封装一下，要不然pro组件接受不到
         const userList = await searchUsers();
         return{
           data: userList

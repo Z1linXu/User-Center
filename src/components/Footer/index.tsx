@@ -18,13 +18,13 @@ const Footer: React.FC = () => {
         {
           key: 'Zilin Xu',
           title: 'Zilin Xu',
-          href: 'https://zilinxu.com',
+          href: 'http://www.zilinxu.com/',
           blankTarget: true,
         },
         {
           key: 'User Center',
           title: 'User Center',
-          href: 'https://zilinxu.com',
+          href: 'http://user.zilinxu.com/',
           blankTarget: true,
         },
         {

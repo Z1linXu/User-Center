@@ -1,10 +1,9 @@
 import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
-import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
-import { PageLoading, SettingDrawer } from '@ant-design/pro-components';
+import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from 'umi';
-import { history, Link } from 'umi';
+import { history} from 'umi';
 import defaultSettings from '../config/defaultSettings';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import {RequestConfig} from "@@/plugin-request/request";
@@ -17,9 +16,9 @@ const loginPath = '/user/login';
 const NO_NEED_LOGIN_WHITE_LIST = ['/user/register', loginPath];
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
-export const initialStateConfig = {
-  loading: <PageLoading />,
-};
+//export const initialStateConfig = {
+ // loading: <PageLoading />,
+//};
 
 export const request: RequestConfig = {
   timeout: 1000000,
@@ -35,6 +34,7 @@ export async function getInitialState(): Promise<{
   loading?: boolean;
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
+  //alert(process.env.NODE_ENV);
   const fetchUserInfo = async () => {
     try {
       return  await queryCurrentUser();
@@ -57,6 +57,7 @@ export async function getInitialState(): Promise<{
   return {
       // @ts-ignore
       fetchUserInfo,
+    // @ts-ignore
       currentUser,
       settings: defaultSettings,
     };
@@ -86,14 +87,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     links: isDev
       ? [
-          <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
-            <LinkOutlined />
-            <span>OpenAPI 文档</span>
-          </Link>,
-          <Link to="/~docs" key="docs">
-            <BookOutlined />
-            <span>业务组件文档</span>
-          </Link>,
+            //
         ]
       : [],
     menuHeaderRender: undefined,

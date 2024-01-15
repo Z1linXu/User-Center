@@ -64,7 +64,7 @@ const Register: React.FC = () => {
       </div>
       <div className={styles.content}>
         <LoginForm
-
+          //这个submitter是表单按钮的名称
           submitter={{
             searchConfig: {
               submitText: 'Register'
